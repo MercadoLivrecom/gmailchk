@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Separador de E-mails</title>
+    <link rel="icon" href="https://i.ibb.co/TgJy4mv/DALL-E-2024-10-02-19-46.png" type="image/png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #000000;
+            border-radius: 10px;
+        }
+        .icon-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .icon-container img {
+            width: 50px;
+            height: 50px;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-size: 14px;
+        }
+        .center {
+            text-align: center;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ffc107;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #e0a800;
+        }
+        .provider {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        .provider h2 {
+            margin-top: 0;
+        }
+        pre {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="icon-container">
+        <img src="https://i.ibb.co/TgJy4mv/DALL-E-2024-10-02-19-46.png" alt="Separador de E-mails Ícone">
+    </div>
+
+    <textarea id="emailInput" placeholder="Insira todos os e-mails abaixo, separados por vírgula ou nova linha:"></textarea>
+    
+    <div class="center">
+        <button id="separateBtn">START</button>
+    </div><br><br>
+
+    <div id="hotmailSection" class="provider" style="display: none;">
+        <h2>Hotmail</h2>
+        <pre id="hotmailEmails"></pre>
+        <button id="downloadHotmailBtn">Baixar Hotmail</button>
+    </div>
+
+    <div id="gmailSection" class="provider" style="display: none;">
+        <h2>Gmail</h2>
+        <pre id="gmailEmails"></pre>
+        <button id="downloadGmailBtn">Baixar Gmail</button>
+    </div>
+
+    <div id="yahooSection" class="provider" style="display: none;">
+        <h2>Yahoo</h2>
+        <pre id="yahooEmails"></pre>
+        <button id="downloadYahooBtn">Baixar Yahoo</button>
+    </div>
+
+    <div id="uolSection" class="provider" style="display: none;">
+        <h2>UOL</h2>
+        <pre id="uolEmails"></pre>
+        <button id="downloadUolBtn">Baixar UOL</button>
+    </div>
+
+    <div id="bolSection" class="provider" style="display: none;">
+        <h2>BOL</h2>
+        <pre id="bolEmails"></pre>
+        <button id="downloadBolBtn">Baixar BOL</button>
+    </div>
+
+    <div id="terraSection" class="provider" style="display: none;">
+        <h2>Terra</h2>
+        <pre id="terraEmails"></pre>
+        <button id="downloadTerraBtn">Baixar Terra</button>
+    </div>
+
+    <div id="outrosSection" class="provider" style="display: none;">
+        <h2>Outros</h2>
+        <pre id="outrosEmails"></pre>
+        <button id="downloadOutrosBtn">Baixar Outros</button>
+    </div>
+
+     <script>
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        document.onkeydown = function (e) {
+            if (e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && e.key === 'I') || 
+                (e.ctrlKey && e.shiftKey && e.key === 'J') || 
+                (e.ctrlKey && e.key === 'U')) {
+                e.preventDefault();
+                return false;
+            }
+        };
+
+        console.log('%cPare! Não revenda este código netfree!', 'color: red; font-size: 20px; font-weight: bold;');
+        console.log(`
+██████████████████████████████████████████████████████████████████████████████████████████
+██████████████████████████████████████████████████████████████████████████████████████████
+█████████▓███▓▓███████▓██████████████████████████████████████████████████████▓█████▓██████
+███▓█▓███▓████▓███████▓█▓███████████▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓██████████████▓████████▓█▓███▓██▓█▓█
+█████████████████████████████▓▓▒▒░░░▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒░░░▒▒▓██████████████████████████████
+███▓█▓███▓███▓▓██▓█▓██▓█▓▓▒░░░▒▒▓███████▓████████████████▓▒▒░░▒▒███▓▓███▓█▓██▓▓▓███▓██▓█▓█
+███▓█▓███▓██▓▓▓██▓█▓██▓▒░░▒▓███▓███▓▓███████████████▓▓███▓████▓▒░░▒▓▓███▓█▓██▓▓▓███▓██▓█▓█
+████████████████████▓░░▒▓██████████▓▓███▓▓▓▓▓▓▓▓▓███▓████▓███████▓▒░░▓████████████████████
+████▓███▓▓▓█▓▓▓██▓▒░░▓███▓▓██▓▓▓██▓▓▓█▓▓▒░░░░░░░░▒▓▓█▒███▒███▒▓▓██▓█▓░░▒▓█▓██▓█▓██▓▓██▓█▓█
+████▓███▓▓▓█▓▓▓█▒░░▓█▓███▓▓██▓▓▓████▒░░░▒▒▒▒▒▒▒▒▒▒░░▒▓███▒███▒▓▓██▓███▓░░▒▓██▓▓▓██▓▓██▓█▓█
+██████████████▓░░▓███▓███▓▓███▓▓██▒░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░▓█▓▓███▓██▓▓█████▓░░▓██████████████
+███▓█▓██▓▓▓█▓░░▒█▓██▒█▓███▒██▒██▓░░▒▒▓▓▓▓▓▓▓▒▒▓▓▓▓▓▓▓▒▒░░█▓██▓▒██▒█▒██▒███▒░▒▓▓▓██▓▓████▓█
+███▓█▓██▓▓▓▓░░▓█▓▓██▒▓▓██▓▒██▓█░░▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒░▓███▒██▓▓▓██▒██▓█▓░░▓▓██▓▓████▓█
+██████████▓░░███▓▓██▓▓▓██▓▓██▓░▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒░▒█▓▓▓█▓▓██▓▓██▓▓█▓░░▓██████████
+███▓█▓██▓▒░░███▓▓▒██▒█▒█▓▓▓█▒░▒▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▒░██▒██░███▒██▒█▒██░░▓█▓▓██████
+███▓█▓██▓░░██▓█▓▓▓██▓▓▓█▓▒█▒░▒▓▓▓▓▓▒▒▓▓▓██████████▓▓▓▒▓▓▓▓▓▓▒░█▓██▒███▓██▓▓▓███░░█▓▓██████
+████████░░▓█▓▓██▓▓██▓▒██▓▓▓░▒▓▓▓▒▓▓███████████████████▓▓▓▒▓▓▓▒░██▒▒▓█▓▒██▒▓▓█▓█▓░▒████████
+███▓█▓█▓░▒█▓▓▓██▓▒███▒███▓░▒▓▓▒▓█████████████████████████▓▓▒▓▓▒░█▒▓▒██▒██▒▓▒█▓▓█▒░▓▓████▓█
+███▓█▓█░░███▓▓██▓▓██▓▒▓██░▒▓▒▓█████▓▓▓▒▓██████████▓▒▓▓▓█████▓▓▓░▒█▒▓█▓▓██▓▒▓█▓▒█▓░░▓██████
+██████▓░▒███▓▓██▓▒██░█▒█▒▒▓▓▓█████▒▓███▒▓▓██▓▓▓█▓▒▓███▓▓█████▓▓▓░▓█▒█▓░█▓▒▓▒██▒▓█▒░▓██████
+██████▒░▓███▓▓██▓▓██▓▒▓▓░▓▓███████▒▓███▒▓▓▓▓▓▓▓█▓▒▓███▒▓███▓██▓▓▒░█▓▓█▒██▓▓▓██▓▓█▓░▒██████
+███▓█▓░░█▓█▓▒▓█▓▒▓██▒▒█▒▒▓▓██▒██▓▓▓▓▒▓▒▓█████████▓▓▒▓▒▓▓███▓▒██▓▓░▓█▓▒▒▓▓▒▒▓█▒▒▒█▓░▒██████
+██████░░█▓██▒▓██▓▒█▓░▓█░▓▓██▓▒▓▓▓▓▓▓▓▓███▓▒░░░░▒▓██▓▓▓▓▓▓▓▓▓▒▓██▓▒▒█▓▓░▓▓▒▓▒█▒▓░██░▒██████
+██████░░████▓▓▓▓▓▓▓▓▓▓█░▓▓███▒▒▓▓▓▓████▓░░░░░░░░░▒▓███▓▓▓▓▓▒▓███▓▓▒█▓▓▓▓▓▓▓▓▓▓▓▓█▓░▒██████
+███▓█▓▒░███▒▒▒▓▒▒▒▓▓░▓█▒▓▓███▓▒▓█████▒░░░▒█░░░░█▒░░░▓█████▓▒████▓▓▒█▓▒▒▓▓▒▒▒▓▒▒▓█▓░▒██▓███
+█████▓▒░▓█▓░▓▒▓▒▓▒▓▓░▓█▒▓▒█████▒█████░▒░░▒▒░░░░▒▒░░▒▒████▓▓█████▓▓▒█▓▓▒▓▓▒▓▒▓▓▒▒█▒░▓██▓███
+██████▓░▒█▓▓▓▓▓▓▓▓▓▓▓▓█▓▓▓▓█████▓███▓░▒░░░░░░░░░░░░▒░███▓▓█████▒▓▓██▓▓▓▓▓▓▓▓▓▓▓▓█░░███████
+███▓█▓█▒░██▓▒▓▓▓▒▒▓▓▒▒▒█▓▓▓▓███████▓░▒▒▒░░░░░░░░░░▒▒▒▒████████▓▓▓▓█▓▓▒▒▓▓▒▒▓▓▒▒█▓░▒▓██▓███
+███▓█▓█▓░▒█▓▒▓▓▒▓▒▓▓░▓▒██▓▓▒▓██████░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██████▓▓███▓▓▓▓▒▓▓▒▓▒▓▒██░▒▓▓██▓███
+████████▒░▓█▓▓▓▓▒▒▓▓▓▓▒░░██▓▓▒████▓░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░▓███▓▒▓██▓░▒▓█▓▒▓▓▒▒▓▓▓█▒░▓████████
+███▓█▓██▓▒░▓█▓▓▓▒▓█▓░░▒▒▒▒███▓▓▓███▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓███▒▓████░▒▒░░▒▓█▓▒▒▓▓█▒░▓██▓████▓█
+█████▓██▓▓▒░▓█▓██▓░░▒▓▓▓▓▓▒████▓▓▓▓████████████████████▓▓▓████▓▒▓▓▓▓▒▒░▒▓█▓▓█▒░▒██▓▓██████
+███████████▒░▓█▓░░▒▓▓▒▓▓▓▓▓▓▓█████▓▓▓▓██████████████▓▓▓▓█████▓▓▓▓▓▓▓▒▓▒▒░░██▒░▒███████████
+███▓█▓██▓█▓█▒░▒█▓▓▓▒▒█▓▓▓▓▓▓▓▓████████▓▓▓████████▓▓▓▓███████▓▓▓▓▓▓▓▓▓▒▓▓▓█▓▒▒▓█▓████████▓█
+███▓█▓██▓▓██▓▓▒▒▓██▓▓▒▓█▓██▓▓▓▓▓██████▓█▓▓▓█▓▓█▓▓██▓██████▓▓▓▓▓██▓█▓▓▓███▒░▒█▓▓▓██▓▓██████
+█████████████▓█▓▒▒▓███▓▓█████████▓████▒████▓▒▒▓████▒████▓█████████▓████▓▒▒▓███████████████
+████████▓███▓▓▓██▓▒▒▓█████████████████▒████▓▒▒▓████▒█████████████████▓▒▒▓▓▓██▓█▓██████▓█▓█
+████████▓▓███▓▓██▓▓▓▒▒▒▓██████████████▒█████▓▓█████▒██████████████▓▒▒▒▓███▓██▓▓▓██████▓█▓█
+█████████████████████▓▓▒▒▒▓███████████▒█████▓▓█████▒███████████▓▒▒▒▒▓█████████████████████
+███▓█▓██▓█████▓██▓█▓██▓█▓▓▒▒▒▓▓███████▒▓████▒▒████▓▒███████▓▓▒▒▒▓██▓█████▓███▓█▓███▓██▓█▓█
+███▓████▓▓███▓▓██▓█▓██▓█▓██▓▓▓▒▒▒▒▒▓▓▓▓█████▓▓██████▓▓▓▒▒▒▒▒▓▓▓▓███▓▓████████▓█████▓██████
+█████████████████████████████████▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓█████████████████████████████████
+███▓█▓████████▓██▓█▓██▓█▓███████▓███████████████████████████████████████▓█▓██▓█▓██████████
+████████▓█████▓███████▓██████████████████████████████████████████████████████▓████████████
+██████████████████████████████████████████████████████████████████████████████████████████
+   
+Visite nos: t.me/duckettstoneprincipal | t.me/pugno_yt
+Por favor, não revenda coisa grátis.
+`);
+
+        document.getElementById('separateBtn').onclick = function() {
+            const input = document.getElementById('emailInput').value;
+            const emails = input.split(/[,;\n]+/).map(email => email.trim()).filter(email => email);
+            const providers = {
+                hotmail: [],
+                gmail: [],
+                yahoo: [],
+                uol: [],
+                bol: [],
+                terra: [],
+                outros: []
+            };
+
+            emails.forEach(email => {
+                if (email.includes('@hotmail')) {
+                    providers.hotmail.push(email);
+                } else if (email.includes('@gmail')) {
+                    providers.gmail.push(email);
+                } else if (email.includes('@yahoo')) {
+                    providers.yahoo.push(email);
+                } else if (email.includes('@uol')) {
+                    providers.uol.push(email);
+                } else if (email.includes('@bol')) {
+                    providers.bol.push(email);
+                } else if (email.includes('@terra')) {
+                    providers.terra.push(email);
+                } else {
+                    providers.outros.push(email);
+                }
+            });
+
+            function showEmails(provider, sectionId, emailList) {
+                if (emailList.length > 0) {
+                    document.getElementById(sectionId).style.display = 'block';
+                    document.getElementById(provider).textContent = emailList.join('\n');
+                }
+            }
+
+            showEmails('hotmailEmails', 'hotmailSection', providers.hotmail);
+            showEmails('gmailEmails', 'gmailSection', providers.gmail);
+            showEmails('yahooEmails', 'yahooSection', providers.yahoo);
+            showEmails('uolEmails', 'uolSection', providers.uol);
+            showEmails('bolEmails', 'bolSection', providers.bol);
+            showEmails('terraEmails', 'terraSection', providers.terra);
+            showEmails('outrosEmails', 'outrosSection', providers.outros);
+
+            function downloadEmails(providerName, emails) {
+                const blob = new Blob([emails.join('\n')], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = providerName + '_emails.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+
+            document.getElementById('downloadHotmailBtn').onclick = function() {
+                downloadEmails('Hotmail', providers.hotmail);
+            };
+            document.getElementById('downloadGmailBtn').onclick = function() {
+                downloadEmails('Gmail', providers.gmail);
+            };
+            document.getElementById('downloadYahooBtn').onclick = function() {
+                downloadEmails('Yahoo', providers.yahoo);
+            };
+            document.getElementById('downloadUolBtn').onclick = function() {
+                downloadEmails('UOL', providers.uol);
+            };
+            document.getElementById('downloadBolBtn').onclick = function() {
+                downloadEmails('BOL', providers.bol);
+            };
+            document.getElementById('downloadTerraBtn').onclick = function() {
+                downloadEmails('Terra', providers.terra);
+            };
+            document.getElementById('downloadOutrosBtn').onclick = function() {
+                downloadEmails('Outros', providers.outros);
+            };
+        };
+    </script>
+
+</body>
+
+<div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; animation: bounce 1.5s infinite;">
+    <a href="https://t.me/Telas_fake_java" target="_blank" style="text-decoration: none;">
+        <img src="ta.png" alt="Contato no Telegram" style="width: 50px; height: 50px; border-radius: 50%; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+    </a>
+</div>
+
+<style>
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+</style>
+
+
+</html>
